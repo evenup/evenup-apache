@@ -1,0 +1,9 @@
+    # Redirect all http requests on port <%= scope.lookupvar('port') %> to https
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+<% if scope.lookupvar('targetPort') != '443' %>
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}:<%= scope.lookupvar('targetPort') %>/$1 [R,L]
+<% else %>
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+<% end %>
+

@@ -1,0 +1,39 @@
+
+    <IfModule mod_security2.c>
+<%  if scope.lookupvar('modSecRemoveById').is_a?(Hash) -%>
+      # Remove specific mod_security rules
+<%    scope.lookupvar('modSecRemoveById').each do |location,rules| -%>
+      <LocationMatch <%= location %>>
+<%      rules.to_a.each do |rule| -%>
+        SecRuleRemoveById <%= rule %>
+<%      end -%>
+      </LocationMatch>
+<%    end -%>
+<%  else -%>
+      # Remove specific mod_security rules
+      <LocationMatch .*>
+<%    scope.lookupvar('modSecRemoveById').to_a.each do |rule| -%>
+        SecRuleRemoveById <%= rule %>
+<%    end -%>
+      </LocationMatch>
+<%  end -%>
+<%  if scope.lookupvar('modSecOff').is_a?(Array) -%>
+<%    scpoe.lookupvar('modSecOff').each do |location| -%>
+      <LocationMatch <%= location %>>
+        SecRuleEngine Off
+      </LocationMatch>
+<%    end -%>
+<%  elsif scope.lookupvar('modSecOff') == true -%>
+      # Disable mod_security 
+      SecRuleEngine Off
+<%  end -%>
+<% if scope.lookupvar('modSecDisableByIP') != '' -%>
+      # Disable mod_security for the following IPs
+<%    scope.lookupvar('modSecDisableByIP').to_a.each do |ip| -%>
+      SecRule REMOTE_ADDR "^<%= ip %>$ "phase:1,t:none,nolog,allow,ctl:ruleEngine=Off,ctl:auditEngine=Off"
+<%    end -%>
+<%  end -%>
+<% if scope.lookupvar('modSecBodyLimit') != '' -%>
+  SecRequestBodyLimit <%= scope.lookupvar('modSecBodyLimit') %>
+<% end -%>
+    </IfModule>

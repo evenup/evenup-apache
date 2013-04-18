@@ -1,0 +1,9 @@
+<%  if scope.lookupvar('siteDirectives').is_a? Array -%>
+
+<%    scope.lookupvar('siteDirectives').each do |directive| -%>
+    <%= directive %>
+<%    end -%>
+<%  elsif scope.lookupvar('siteDirectives') != '' -%>
+      <%= scope.lookupvar('siteDirectives') %>
+<%  end -%>
+

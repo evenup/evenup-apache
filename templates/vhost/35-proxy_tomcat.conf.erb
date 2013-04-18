@@ -1,0 +1,26 @@
+    # Proxy Settings
+    ProxyRequests Off
+    ProxyPreserveHost On
+
+    <Location /<%= scope.lookupvar('proxyUrl') %>>
+        AddDefaultCharset Off
+        Order deny,allow
+<%      if ( scope.lookupvar('auth') ) == true -%>
+        Deny from all
+<%      else -%>
+        Allow from all
+<%      end -%>
+<%      if authParams.is_a? Array -%>
+
+<%          authParams.each do |param| -%>
+        <%= param %>
+<%          end -%>
+<%      end -%>
+
+        ProxyPass ajp://<%= scope.lookupvar('ajpHost') %>:<%= scope.lookupvar('ajpPort') %>/<%= scope.lookupvar('proxyUrl') %>
+        ProxyPassReverse ajp://<%= scope.lookupvar('ajpHost') %>:<%= scope.lookupvar('ajpPort') %>/<%= scope.lookupvar('proxyUrl') %>
+<%        if scope.lookupvar('rewrite_to_https') -%>
+        Header edit Location ^http://(.*)$ https://$1
+<%        end -%>
+
+    </Location>

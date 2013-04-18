@@ -1,0 +1,33 @@
+<%  if (scope.lookupvar('ssl')) == true -%>
+
+    # SSL Configuration
+    SSLEngine on
+    SSLCertificateFile /etc/httpd/secure/<%= scope.lookupvar('sslCert') %>.crt
+    SSLCertificateKeyFile /etc/httpd/secure/<%= scope.lookupvar('sslCert') %>.key
+<%      if scope.lookupvar('sslChainFile') != '' -%>
+    SSLCertificateChainFile /etc/httpd/secure/<%= scope.lookupvar('sslChainFile') %>.crt
+<%      end -%>
+<%  end -%>
+
+    # Proxy Settings
+    ProxyRequests Off
+    ProxyPreserveHost On
+
+    <Location /<%= scope.lookupvar('proxyUrl') %>>
+        AddDefaultCharset Off
+        Order deny,allow
+<%      if ( scope.lookupvar('auth') ) == true -%> 
+        Deny from all
+<%      else -%>
+        Allow from all
+<%      end -%>
+<%      if authParams.is_a? Array -%>
+
+<%          authParams.each do |param| -%>
+        <%= param %>
+<%          end -%>
+<%      end -%>
+        ProxyPass ajp://<%= scope.lookupvar('ajpHost') %>:<%= scope.lookupvar('ajpPort') %>/<%= scope.lookupvar('proxyUrl') %>
+        ProxyPassReverse ajp://<%= scope.lookupvar('ajpHost') %>:<%= scope.lookupvar('ajpPort') %>/<%= scope.lookupvar('proxyUrl') %>
+    </Location>
+<%  end -%>

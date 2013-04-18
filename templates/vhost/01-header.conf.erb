@@ -1,0 +1,29 @@
+# Managed by puppet - do not modify
+<VirtualHost *:<%= scope.lookupvar('port') %>>
+    ServerName <%= scope.lookupvar('serverName') %>
+<%  if serverAlias.is_a? Array -%>
+<%      aliases = '' -%>
+<%      serverAlias.each do |aliasName| -%>
+<%          aliases = "#{aliases} #{aliasName}" -%>
+<%      end -%>
+    ServerAlias<%= aliases %>
+<%  elsif serverAlias != '' -%>
+    ServerAlias <%= scope.lookupvar('serverAlias') %>
+<%  end -%>
+    ServerAdmin <%= scope.lookupvar('serverAdmin') %>
+
+    HostnameLookups Off
+    # http://httpd.apache.org/docs/current/mod/mod_log_config.html
+    LogFormat "%{X-Forwarded-For}i %a %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" proxied
+    LogFormat "%a %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" direct
+    LogFormat "{ \"@timestamp\": \"%{%Y-%m-%dT%H:%M:%S%z}t\", \"@fields\": { \"proxied_for\": \"%{X-Forwarded-For}i\", \"client\": \"%a\", \"duration_usec\": %D, \"status\": %>s, \"request\": \"%U%q\", \"method\": \"%m\", \"referrer\": \"%{Referer}i\", \"response_size\": \"%b\", \"user_agent\": \"%{User-agent}i\" } }" logstash_json
+
+    SetEnvIf X-Forwarded-For ".+" is_forwarded=1
+    CustomLog /var/log/httpd/<%= scope.lookupvar('logfile_proxied_real') -%> proxied env=is_forwarded
+    CustomLog /var/log/httpd/<%= scope.lookupvar('logfile_direct_real') -%> direct env=!is_forwarded
+<% if scope.lookupvar('logstash') == true -%>
+    CustomLog /var/log/httpd/<%= scope.lookupvar('name_real') -%>_access.json logstash_json
+<% end -%>
+    ErrorLog /var/log/httpd/<%= scope.lookupvar('errorlog_real') %>
+    LogLevel <%= scope.lookupvar('log_level') %>
+

@@ -1,0 +1,19 @@
+<%  if scope.lookupvar('aliases').is_a? Array -%>
+
+<%      scope.lookupvar('aliases').each do |aliasName| -%>
+    Alias <%= aliasName %>
+<%      end -%>
+<%  elsif scope.lookupvar('aliases') != '' -%>
+
+    Alias <%= scope.lookupvar('aliases') %>
+<%  end -%>
+<%  if scope.lookupvar('scriptAliases').is_a? Array -%>
+
+<%      scope.lookupvar('scriptAliases').each do |aliasName| -%>
+    ScriptAlias <%= aliasName %>
+<%      end -%>
+<%  elsif scope.lookupvar('scriptAliases') != '' -%>
+
+    ScriptAlias <%= scope.lookupvar('scriptAliases') %>
+<%  end -%>
+
