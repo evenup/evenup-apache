@@ -24,7 +24,6 @@ describe 'apache::vhost', :type => :define do
     let(:params) { { :serverName => 'someserver.example.org' } }
     it { should contain_concat('/etc/httpd/conf.d/99-test_vhost.conf') }
     it { should contain_concat__fragment('vhost_01-header_test_vhost') }
-    subject { concat__fragment('vhost_01-header_test_vhost') }
     it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/^<VirtualHost \*:80>$/) }
     it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/^\s+ServerName someserver.example.org$/) }
     it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/^\s+ServerAdmin admin@letsevenup.com$/) }
