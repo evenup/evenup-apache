@@ -16,7 +16,7 @@
     # http://httpd.apache.org/docs/current/mod/mod_log_config.html
     LogFormat "%{X-Forwarded-For}i %a %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" proxied
     LogFormat "%a %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\"" direct
-    LogFormat "{ \"@timestamp\": \"%{%Y-%m-%dT%H:%M:%S%z}t\", \"@fields\": { \"proxied_for\": \"%{X-Forwarded-For}i\", \"client\": \"%a\", \"duration_usec\": %D, \"status\": %>s, \"request\": \"%U%q\", \"method\": \"%m\", \"referrer\": \"%{Referer}i\", \"response_size\": \"%b\", \"user_agent\": \"%{User-agent}i\" } }" logstash_json
+    LogFormat "{ \"@timestamp\": \"%{%Y-%m-%dT%H:%M:%S%z}t\", \"@fields\": { \"proxied_for\": \"%{X-Forwarded-For}i\", \"client\": \"%a\", \"duration_usec\": %D, \"status\": %>s, \"request\": \"%U%q\", \"method\": \"%m\", \"referrer\": \"%{Referer}i\", \"response_size\": \"%b\", \"user_agent\": \"%{User-agent}i\" }, \"@message\": \"%a (%{X-Forwarded-For}i): %U%q\" }" logstash_json
 
     SetEnvIf X-Forwarded-For ".+" is_forwarded=1
     CustomLog /var/log/httpd/<%= scope.lookupvar('logfile_proxied_real') -%> proxied env=is_forwarded
