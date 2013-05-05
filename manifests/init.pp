@@ -34,6 +34,7 @@ class apache(
   class { 'apache::install': } ->
   class { 'apache::mod_security': ensure => $mod_sec} ->
   class { 'apache::mod_evasive': } ->
+  class { 'apache::mod_deflate': } ->
   class { 'apache::service': } ->
   Class['apache']
 
