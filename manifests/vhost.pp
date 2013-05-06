@@ -153,6 +153,28 @@
 # [*modSecBodyLimit*]
 #   Integer.  Set the SecRequestBodyLimit for the vhost.  Size in Bytes
 #
+# [*modExpires*]
+#   Boolean.  Whether mod_expires is enabled or not
+#   Default: true
+#
+# [*expiresByType*]
+#   Hash.  What the expire values per type should be.
+#   The format is {type => time, type => time}
+#   Apache documentation: http://httpd.apache.org/docs/2.2/mod/mod_expires.html
+#   Default:
+#     { 'image/gif'                 => 'access plus 1 months',
+#       'image/jpg'                 => 'access plus 1 months',
+#       'image/jped'                => 'access plus 1 months',
+#       'image/png'                 => 'access plus 1 months',
+#       'image/vnd.microsoft.icon'  => 'access plus 1 months',
+#       'image/x-icon'              => 'access plus 1 months',
+#       'image/ico'                 => 'access plus 1 months',
+#       'application/javascript'    => 'now plus 1 months',
+#       'application/x-javascript   => 'now plus 1 months',
+#       'text/javascript'           => 'now plus 1 months',
+#       'text/css'                  => 'now plus 1 months' }
+#
+#
 # [*logstash*]
 #   Boolean.  If true, JSON logfiles created and beaver stanza added
 #
@@ -234,6 +256,9 @@ define apache::vhost (
   $modSecDisableByIP  = '',
   $modSecRemoveById   = '',
   $modSecBodyLimit    = '',
+  # mod_expires
+  $modExpires         = true,
+  $modExpiresByType   = '',
   # Logging
   $logstash           = false,
 ) {
@@ -256,6 +281,27 @@ define apache::vhost (
   $logfile_proxied_real = "${name_real}_access_proxied.log"
   $logfile_direct_real = "${name_real}_access_direct.log"
 
+  $modExpireByTypeDefault = {
+    'image/gif'                 => 'access plus 1 months',
+    'image/jpg'                 => 'access plus 1 months',
+    'image/jpeg'                => 'access plus 1 months',
+    'image/png'                 => 'access plus 1 months',
+    'image/vnd.microsoft.icon'  => 'access plus 1 months',
+    'image/x-icon'              => 'access plus 1 months',
+    'image/ico'                 => 'access plus 1 months',
+    'application/javascript'    => 'now plus 1 months',
+    'application/x-javascript'  => 'now plus 1 months',
+    'text/javascript'           => 'now plus 1 months',
+    'text/css'                  => 'now plus 1 months'
+  }
+
+  $modExpiresByType_real = $modExpiresByType ? {
+    ''        => $modExpireByTypeDefault,
+      default => $modExpiresByType
+  }
+
+
+
   if !defined(Apache::Namevhost[$port]) {
     apache::namevhost { $port: }
   }
@@ -272,6 +318,14 @@ define apache::vhost (
     target  => "/etc/httpd/conf.d/${order}-${filename_real}",
     content => template('apache/vhost/01-header.conf.erb'),
     order   => 01;
+  }
+
+  if $modExpires == true or $modExpires == 'true' {
+    concat::fragment { "vhost_05-mod_expires_${name}":
+      target  => "/etc/httpd/conf.d/${order}-${filename_real}",
+      content => template('apache/vhost/05-mod_expires.conf.erb'),
+      order   => 05;
+    }
   }
 
   if $redirectToHTTPS {

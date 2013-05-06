@@ -1,0 +1,11 @@
+    <ifModule mod_expires.c>
+      # Ensure mod_expires is active
+      ExpiresActive On
+      <% vals = scope.lookupvar('modExpiresByType_real') -%>
+      <% if vals.is_a? Hash -%>
+      <%  keys = vals.keys.sort %>
+      <%  keys.each do |k| -%>
+      ExpiresByType <%= "#{k} \"#{vals[k]}\"" %>
+      <%  end -%>
+      <% end -%>
+    </ifModule>

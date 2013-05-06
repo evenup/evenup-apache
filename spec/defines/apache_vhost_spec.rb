@@ -61,6 +61,22 @@ describe 'apache::vhost', :type => :define do
     end
   end
 
+  context "mod_expires" do
+
+    context "default" do
+      let(:params) { { :serverName => 'testname' } }
+
+      it { should contain_concat__fragment('vhost_05-mod_expires_test_vhost') }
+    end
+
+    context 'disabled' do
+      let(:params) { { :serverName => 'testname', :modExpires => false } }
+
+      it { should_not contain_concat__fragment('vhost_05-mod_expires_test_vhost') }
+    end
+
+  end
+
   context "when redirecting http to https" do
     context "using the default ports" do
       let(:params) { { :redirectToHTTPS => true, :serverName => 'testname' } }
@@ -278,4 +294,5 @@ describe 'apache::vhost', :type => :define do
     let(:params) { { :serverName => 'testname' } }
     pending "write me"
   end
+
 end
