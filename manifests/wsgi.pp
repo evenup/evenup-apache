@@ -31,7 +31,7 @@ class apache::wsgi {
     owner   => 'apache',
     group   => 'apache',
     require => Class['apache::install'],
-    mode    => 0770,
+    mode    => '0770',
   }
 
   apache::cfgfile { 'wsgi':

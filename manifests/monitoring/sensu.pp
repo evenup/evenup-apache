@@ -29,7 +29,7 @@ class apache::monitoring::sensu {
     command     => '/etc/sensu/plugins/apache-metrics.rb -h localhost -p 88',
     standalone  => true,
   }
-  
+
   sensu::subscription { 'apache': }
 
 }

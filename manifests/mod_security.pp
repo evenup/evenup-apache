@@ -42,9 +42,9 @@ class apache::mod_security(
   }
 
   apache::cfgfile { 'mod_security.conf':
+    ensure    => $cfg_ensure,
     content   => template('apache/mod_security.conf'),
     filename  => 'mod_security.conf',
-    ensure    => $cfg_ensure,
   }
 
   file { '/etc/httpd/modsecurity.d/':

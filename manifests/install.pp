@@ -18,7 +18,7 @@ class apache::install {
     'httpd':
       ensure  => 'present';
   }
-  
+
   File {
     owner   => 'apache',
     group   => 'apache',
