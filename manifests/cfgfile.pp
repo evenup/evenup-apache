@@ -40,10 +40,10 @@
 #
 # Copyright 2013 EvenUp.
 #
-define apache::cfgfile( 
-  $content, 
-  $filename, 
-  $ensure = 'present', 
+define apache::cfgfile(
+  $content,
+  $filename,
+  $ensure = 'present',
   $order  = '00'
 ) {
 

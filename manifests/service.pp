@@ -29,5 +29,6 @@ class apache::service {
     'sensu':  {
       include apache::monitoring::sensu
     }
+    default:  {}
   }
 }
