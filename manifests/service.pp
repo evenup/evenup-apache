@@ -11,7 +11,9 @@
 #
 # Copyright 2013 EvenUp.
 #
-class apache::service {
+class apache::service (
+  $monitoring = '',
+){
 
   service {
     'httpd':
@@ -21,9 +23,6 @@ class apache::service {
       # TODO mod_security seems to be unhappy with graceful
 #      restart   => '/etc/init.d/httpd graceful';
   }
-
-  # Monitoring
-  $monitoring = hiera('monitoring', '')
 
   case $monitoring {
     'sensu':  {
