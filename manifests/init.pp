@@ -26,7 +26,8 @@
 # Copyright 2013 EvenUp.
 #
 class apache(
-  $mod_sec = true
+  $mod_sec    = true,
+  $monitoring = '',
 ) {
 
   include apache::status
@@ -35,7 +36,7 @@ class apache(
   class { 'apache::mod_security': ensure => $mod_sec} ->
   class { 'apache::mod_evasive': } ->
   class { 'apache::mod_deflate': } ->
-  class { 'apache::service': } ->
+  class { 'apache::service': monitoring => $monitoring } ->
   Class['apache']
 
 }
