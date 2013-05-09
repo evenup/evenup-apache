@@ -64,13 +64,4 @@ class apache::install {
     group   => 'wheel',
     mode    => '0775',
   }
-
-  # Logrotate for apache logs
-  logrotate::file {
-    'httpd':
-      ensure      => 'present',
-      log         => '/var/log/httpd/*log',
-      options     => [ 'missingok', 'notifempty', 'sharedscripts' ],
-      postrotate  => [  '/sbin/service httpd reload > /dev/null 2>/dev/null || true' ];
-  }
 }
