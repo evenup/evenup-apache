@@ -3,7 +3,6 @@ require 'spec_helper'
 describe 'apache::install', :type => :class do
 
   it { should create_class('apache::install') }
-  it { should include_class('logrotate') }
 
   it { should contain_package('httpd') }
 
@@ -15,7 +14,5 @@ describe 'apache::install', :type => :class do
     'force'   => true
   ) }
   it { should contain_file('/var/log/httpd/') }
-
-  it { should contain_logrotate__file('httpd') }
 
 end
