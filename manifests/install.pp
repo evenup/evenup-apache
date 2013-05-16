@@ -16,7 +16,7 @@ class apache::install {
 
   package {
     'httpd':
-      ensure  => 'present';
+      ensure  => 'latest';
   }
 
   File {
