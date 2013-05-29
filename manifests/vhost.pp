@@ -177,6 +177,12 @@
 #
 # [*logstash*]
 #   Boolean.  If true, JSON logfiles created and beaver stanza added
+#   Defaults: false
+#
+# [*logstash_fields*]
+#   Hash.  Custom fields to be added to the JSON output.
+#   Default: {}
+#
 #
 # === Examples
 #
@@ -261,6 +267,7 @@ define apache::vhost (
   $modExpiresByType   = '',
   # Logging
   $logstash           = false,
+  $logstash_fields    = {},
 ) {
 
   include apache
