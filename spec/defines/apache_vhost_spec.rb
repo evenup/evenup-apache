@@ -295,4 +295,16 @@ describe 'apache::vhost', :type => :define do
     pending "write me"
   end
 
+  context "when using logstash" do
+    let(:params) { { :serverName => 'testName', :logstash => true } }
+    it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/CustomLog \/var\/log\/httpd\/test_vhost_access.json logstash_json/) }
+    it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/"user_agent": "%\{User-agent\}i" \}, /) }
+
+    context "custom fields" do
+      let(:params) { { :serverName => 'testName', :logstash => true, :logstash_fields => { 'field2' => 'param2', 'field1' => 'param1' } } }
+
+      it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/"user_agent": "%\{User-agent\}i", "field1": "param1", "field2": "param2" \}, /) }
+    end
+  end
+
 end
