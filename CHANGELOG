@@ -1,3 +1,5 @@
+v2.2.1:
+  Add containment to module
 v2.2.0:
   Add custom logstash fields
 v2.1.0:
