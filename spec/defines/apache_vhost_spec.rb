@@ -307,4 +307,10 @@ describe 'apache::vhost', :type => :define do
     end
   end
 
+  context "with custom headers directive" do
+    let(:params) { { :serverName => 'testName', :headers => 'unset JSESSIONID' } }
+    it { should contain_concat__fragment('vhost_50-header_test_vhost') }
+  end
+
+
 end
