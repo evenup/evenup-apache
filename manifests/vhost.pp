@@ -175,6 +175,11 @@
 #       'text/css'                  => 'now plus 1 months' }
 #
 #
+# [*headers*]
+#   String or Array of Strings.  Manage HTTP headers.  Values passed here will
+#     be appended to the Header directive
+#   Default: ''
+#
 # [*logstash*]
 #   Boolean.  If true, JSON logfiles created and beaver stanza added
 #   Defaults: false
@@ -190,7 +195,7 @@
 #     'www-http':
 #       serverName      => $::fqdn,
 #       serverAlias     => someone@mydomain.com,
-#       redirectToHTTPS => true;
+#       redirectToHTTPS => true,
 #    }
 #
 #   apache::vhost {
@@ -201,7 +206,7 @@
 #       proxyTomcat => true,
 #       port        => 443,
 #       ssl         => true,
-#       sslCert     => 'mysite.com';
+#       sslCert     => 'mysite.com',
 #   }
 #
 # * Removal:
@@ -265,6 +270,8 @@ define apache::vhost (
   # mod_expires
   $modExpires         = true,
   $modExpiresByType   = '',
+  # Headers
+  $headers            = '',
   # Logging
   $logstash           = false,
   $logstash_fields    = {},
@@ -318,20 +325,20 @@ define apache::vhost (
     owner   => 'apache',
     group   => 'apache',
     require => Package['httpd'],
-    notify  => Service['httpd'];
+    notify  => Service['httpd'],
   }
 
   concat::fragment { "vhost_01-header_${name}":
     target  => "/etc/httpd/conf.d/${order}-${filename_real}",
     content => template('apache/vhost/01-header.conf.erb'),
-    order   => 01;
+    order   => 01,
   }
 
   if $modExpires == true or $modExpires == 'true' {
     concat::fragment { "vhost_05-mod_expires_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/05-mod_expires.conf.erb'),
-      order   => 05;
+      order   => 05,
     }
   }
 
@@ -339,7 +346,7 @@ define apache::vhost (
     concat::fragment { "vhost_10-redirect_http_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/10-redirect_http.conf.erb'),
-      order   => 10;
+      order   => 10,
     }
   }
 
@@ -347,7 +354,7 @@ define apache::vhost (
     concat::fragment { "vhost_15-ssl_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/15-ssl.conf.erb'),
-      order   => 15;
+      order   => 15,
     }
   }
 
@@ -355,7 +362,7 @@ define apache::vhost (
     concat::fragment { "vhost_20-aliases_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/20-aliases.conf.erb'),
-      order   => 20;
+      order   => 20,
     }
   }
 
@@ -363,7 +370,7 @@ define apache::vhost (
     concat::fragment { "vhost_25-site_directives_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/25-site_directives.conf.erb'),
-      order   => 25;
+      order   => 25,
     }
   }
 
@@ -371,7 +378,7 @@ define apache::vhost (
     concat::fragment { "vhost_30-docroot_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/30-docroot.conf.erb'),
-      order   => 30;
+      order   => 30,
     }
   }
 
@@ -380,20 +387,20 @@ define apache::vhost (
       concat::fragment { "vhost_35-proxy_tomcat_${name}":
         target  => "/etc/httpd/conf.d/${order}-${filename_real}",
         content => template('apache/vhost/35-proxy_tomcat.conf.erb'),
-        order   => 35;
+        order   => 35,
       }
     } elsif $proxyThin {
       concat::fragment { "vhost_35-proxy_thin_${name}":
         target  => "/etc/httpd/conf.d/${order}-${filename_real}",
         content => template('apache/vhost/35-proxy_thin.conf.erb'),
-        order   => 35;
+        order   => 35,
       }
     } else {
       # TODO - throw error if proxyDest not set
       concat::fragment { "vhost_35-proxy_generic_${name}":
         target  => "/etc/httpd/conf.d/${order}-${filename_real}",
         content => template('apache/vhost/35-proxy_generic.conf.erb'),
-        order   => 35;
+        order   => 35,
       }
     }
   }
@@ -402,7 +409,7 @@ define apache::vhost (
     concat::fragment { "vhost_40-locations_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/40-locations.conf.erb'),
-      order   => 40;
+      order   => 40,
     }
   }
 
@@ -410,14 +417,22 @@ define apache::vhost (
     concat::fragment { "vhost_45-modsec_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/45-modsec.conf.erb'),
-      order   => 45;
+      order   => 45,
+    }
+  }
+
+  if $headers != '' {
+    concat::fragment { "vhost_50-header_${name}":
+      target  => "/etc/httpd/conf.d/${order}-${filename_real}",
+      content => template('apache/vhost/50-header.conf.erb'),
+      order   => 50,
     }
   }
 
   concat::fragment { "vhost_99-_footer_${name}":
     target  => "/etc/httpd/conf.d/${order}-${filename_real}",
     content => template('apache/vhost/99-footer.conf.erb'),
-    order   => 99;
+    order   => 99,
   }
 
   if $logstash {

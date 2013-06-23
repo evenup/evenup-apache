@@ -1,4 +1,5 @@
-v2.2.2:
+v2.3.0:
+  Add ability to set custom Headers directives
   Update sensu checks
 v2.2.1:
   Add containment to module

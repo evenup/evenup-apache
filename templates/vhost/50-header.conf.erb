@@ -1,0 +1,6 @@
+    <IfModule mod_headers.c>
+<% headers = scope.lookupvar('headers') -%>
+<%  headers.to_a.each do |header| -%>
+      Header <%= header %>
+<%      end -%>
+    </IfModule>
