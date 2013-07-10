@@ -1,13 +1,13 @@
 # Managed by puppet - do not modify
 <VirtualHost *:<%= scope.lookupvar('port') %>>
     ServerName <%= scope.lookupvar('serverName') %>
-<%  if serverAlias.is_a? Array -%>
+<%  if scope.lookupvar('serverAlias').is_a? Array -%>
 <%      aliases = '' -%>
-<%      serverAlias.each do |aliasName| -%>
+<%      scope.lookupvar('serverAlias').each do |aliasName| -%>
 <%          aliases = "#{aliases} #{aliasName}" -%>
 <%      end -%>
     ServerAlias<%= aliases %>
-<%  elsif serverAlias != '' -%>
+<%  elsif scope.lookupvar('serverAlias') != '' -%>
     ServerAlias <%= scope.lookupvar('serverAlias') %>
 <%  end -%>
     ServerAdmin <%= scope.lookupvar('serverAdmin') %>

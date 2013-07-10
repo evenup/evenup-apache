@@ -40,5 +40,4 @@ class apache(
   class { 'apache::service': monitoring => $monitoring } ->
   anchor { 'apache::end': }
 
-
 }
