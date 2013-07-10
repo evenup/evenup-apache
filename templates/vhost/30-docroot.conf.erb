@@ -23,9 +23,9 @@
 <%      else -%>
         Allow from all
 <%      end -%>
-<%      if authParams.is_a? Array -%>
+<%      if scope.lookupvar('authParams').is_a? Array -%>
 
-<%          authParams.each do |param| -%>
+<%          scope.lookupvar('authParams').each do |param| -%>
         <%= param %>
 <%          end -%>
 <%      end -%>
