@@ -12,10 +12,9 @@ describe 'apache::service', :type => :class do
   end
 
   context 'monitoring::sensu' do
-    let(:hiera_data) { { :monitoring => 'sensu' } }
+    let(:params) { { :monitoring => 'sensu' } }
 
-    # Why don't I work?
-    xit { should include_class('apache::monitoring::sensu') }
+    it { should include_class('apache::monitoring::sensu') }
   end
 
 end
