@@ -23,6 +23,8 @@
 #
 class apache::passenger inherits apache {
 
+  include ruby::rack
+
   package {
     'mod_passenger':
       ensure  => installed;
