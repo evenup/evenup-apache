@@ -306,7 +306,8 @@ define apache::vhost (
     'application/javascript'    => 'now plus 1 months',
     'application/x-javascript'  => 'now plus 1 months',
     'text/javascript'           => 'now plus 1 months',
-    'text/css'                  => 'now plus 1 months'
+    'text/css'                  => 'now plus 1 months',
+    'text/x-component'          => 'now plus 1 months'
   }
 
   $modExpiresByType_real = $modExpiresByType ? {
