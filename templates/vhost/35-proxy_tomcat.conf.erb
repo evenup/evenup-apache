@@ -5,7 +5,7 @@
     <Location /<%= scope.lookupvar('proxyUrl') %>>
         AddDefaultCharset Off
         Order deny,allow
-<%      if ( scope.lookupvar('auth') ) == true -%>
+<%      if scope.lookupvar('auth') == true -%>
         Deny from all
 <%      else -%>
         Allow from all
