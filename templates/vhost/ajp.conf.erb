@@ -4,9 +4,9 @@
     SSLEngine on
     SSLCertificateFile /etc/httpd/secure/<%= scope.lookupvar('sslCert') %>.crt
     SSLCertificateKeyFile /etc/httpd/secure/<%= scope.lookupvar('sslCert') %>.key
-<%      if scope.lookupvar('sslChainFile') != '' -%>
+<%    if scope.lookupvar('sslChainFile') != '' -%>
     SSLCertificateChainFile /etc/httpd/secure/<%= scope.lookupvar('sslChainFile') %>.crt
-<%      end -%>
+<%    end -%>
 <%  end -%>
 
     # Proxy Settings
@@ -16,18 +16,17 @@
     <Location /<%= scope.lookupvar('proxyUrl') %>>
         AddDefaultCharset Off
         Order deny,allow
-<%      if ( scope.lookupvar('auth') ) == true -%> 
+<%  if ( scope.lookupvar('auth') ) == true -%>
         Deny from all
-<%      else -%>
+<%  else -%>
         Allow from all
-<%      end -%>
-<%      if authParams.is_a? Array -%>
+<%  end -%>
+<%  if authParams.is_a? Array -%>
 
-<%          authParams.each do |param| -%>
+<%    authParams.each do |param| -%>
         <%= param %>
-<%          end -%>
-<%      end -%>
+<%    end -%>
+<%  end -%>
         ProxyPass ajp://<%= scope.lookupvar('ajpHost') %>:<%= scope.lookupvar('ajpPort') %>/<%= scope.lookupvar('proxyUrl') %>
         ProxyPassReverse ajp://<%= scope.lookupvar('ajpHost') %>:<%= scope.lookupvar('ajpPort') %>/<%= scope.lookupvar('proxyUrl') %>
     </Location>
-<%  end -%>
