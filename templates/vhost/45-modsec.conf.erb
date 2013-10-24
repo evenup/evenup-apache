@@ -12,8 +12,12 @@
 <%  else -%>
       # Remove specific mod_security rules
       <LocationMatch .*>
-<%    scope.lookupvar('modSecRemoveById').to_a.each do |rule| -%>
-        SecRuleRemoveById <%= rule %>
+<%    if scope.lookupvar('modSecRemoveById').is_a?(String) -%>
+        SecRuleRemoveById <%= scope.lookupvar('modSecRemoveById') %>
+<%    else -%>
+<%      scope.lookupvar('modSecRemoveById').to_a.each do |rule| -%>
+          SecRuleRemoveById <%= rule %>
+<%      end -%>
 <%    end -%>
       </LocationMatch>
 <%  end -%>
@@ -24,7 +28,7 @@
       </LocationMatch>
 <%    end -%>
 <%  elsif scope.lookupvar('modSecOff') == true -%>
-      # Disable mod_security 
+      # Disable mod_security
       SecRuleEngine Off
 <%  end -%>
 <% if scope.lookupvar('modSecDisableByIP') != '' -%>
