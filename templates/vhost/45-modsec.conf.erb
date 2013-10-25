@@ -12,10 +12,10 @@
 <%  else -%>
       # Remove specific mod_security rules
       <LocationMatch .*>
-<%    if scope.lookupvar('modSecRemoveById').is_a?(String) -%>
-        SecRuleRemoveById <%= scope.lookupvar('modSecRemoveById') %>
-<%    else -%>
-<%      scope.lookupvar('modSecRemoveById').to_a.each do |rule| -%>
+<%    if @modSecRemoveById.is_a?(String) and @modSecRemoveById != '' -%>
+        SecRuleRemoveById <%= @modSecRemoveById %>
+<%    elsif @modSecRemoveById.is_a?(Array) and !@modSecRemoveById.empty? -%>
+<%      @modSecRemoveById.to_a.each do |rule| -%>
           SecRuleRemoveById <%= rule %>
 <%      end -%>
 <%    end -%>
