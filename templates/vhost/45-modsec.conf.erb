@@ -14,7 +14,7 @@
       <LocationMatch .*>
 <%    if scope.lookupvar('modSecRemoveById').is_a?(String) -%>
         SecRuleRemoveById <%= scope.lookupvar('modSecRemoveById') %>
-<%    else -%>
+<%    elsif !scope.lookupvar('modSecRemoveById').empty? -%>
 <%      scope.lookupvar('modSecRemoveById').to_a.each do |rule| -%>
           SecRuleRemoveById <%= rule %>
 <%      end -%>
