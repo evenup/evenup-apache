@@ -1,5 +1,5 @@
     # Site definition
-    DocumentRoot <%= scope.lookupvar('docroot') %>
+    DocumentRoot "<%= scope.lookupvar('docroot') %>"
     <Directory "<%= scope.lookupvar('docroot') %>">
 <%      if scope.lookupvar('options').is_a? Array -%>
 <%          options_real = '' -%>
