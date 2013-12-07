@@ -140,7 +140,7 @@ describe 'apache::vhost', :type => :define do
     let(:params) { { :serverName => 'testName', :docroot => '/var/somewhere' } }
 
     it { should contain_concat__fragment('vhost_30-docroot_test_vhost') }
-    it { should contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\s+DocumentRoot \/var\/somewhere$/) }
+    it { should contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\s+DocumentRoot \"\/var\/somewhere\"$/) }
     it { should contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\s+<Directory \"\/var\/somewhere\">$/) }
     it { should_not contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\sOptions/) }
     it { should_not contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\sAddHandler/) }
