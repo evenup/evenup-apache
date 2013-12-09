@@ -78,6 +78,10 @@
 #   Default is false
 #   None of the static website options can be set when using the proxy engine
 #
+# [*proxyExclude*]
+#   String or Array of strings.  Paths to be excluded from being proxied.
+#   Default: []
+#
 # [*proxyTomcat*]
 #   Boolean.  Enable AJP proxying for tomcat.
 #   Default is false
@@ -107,7 +111,7 @@
 #   Default is empty
 #
 # [*proxyDest*]
-#   String.  Destination URL of the proxied request (used in conjunction with proxyUrl
+#   String.  Destination URL of the proxied request (used in conjunction with proxyUrl)
 #   Default is empty
 #
 # [*docroot*]
@@ -229,8 +233,8 @@ define apache::vhost (
   $port               = '80',
   $serverAdmin        = 'admin@letsevenup.com',
   $order              = '99',
-  $aliases            = '',
-  $scriptAliases      = '',
+  $aliases            = [],
+  $scriptAliases      = [],
   $auth               = false,
   $authParams         = [],
   $log_level          = 'warn',
@@ -243,6 +247,7 @@ define apache::vhost (
   $rewrite_to_https   = false,
   # Proxy config
   $proxy              = false,
+  $proxyExclude       = [],
   # Tomcat proxy config
   $proxyTomcat        = false,
   $ajpHost            = 'localhost',
@@ -294,6 +299,9 @@ define apache::vhost (
   $errorlog_real = "${name_real}_error.log"
   $logfile_proxied_real = "${name_real}_access_proxied.log"
   $logfile_direct_real = "${name_real}_access_direct.log"
+  $proxyExclude_real = any2array($proxyExclude)
+  $aliases_real = any2array($aliases)
+  $scriptAliases_real = any2array($scriptAliases)
 
   $modExpireByTypeDefault = {
     'image/gif'                 => 'access plus 1 months',
@@ -359,7 +367,7 @@ define apache::vhost (
     }
   }
 
-  if $aliases != '' or $scriptAliases != '' {
+  if $aliases != [] or $scriptAliases != [] {
     concat::fragment { "vhost_20-aliases_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/20-aliases.conf.erb'),

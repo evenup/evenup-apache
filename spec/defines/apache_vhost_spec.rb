@@ -101,6 +101,14 @@ describe 'apache::vhost', :type => :define do
   end
 
   context "when using aliases" do
+    context "when not present" do
+      let(:params) { { :serverName => 'testName' } }
+
+      it { should_not contain_concat__fragment('vhost_20-aliases_test_vhost') }
+      it { should_not contain_concat__fragment('vhost_20-aliases_test_vhost').with_content(/^\s+Alias.*$/) }
+      it { should_not contain_concat__fragment('vhost_20-aliases_test_vhost').with_content(/^\s+ScriptAlias.*$/) }
+    end
+
     context "as strings" do
       let(:params) { { :serverName => 'testName', :aliases => '/blah /blah2', :scriptAliases => '/blah3 /blah4' } }
 
@@ -188,6 +196,7 @@ describe 'apache::vhost', :type => :define do
       let(:params) { { :serverName => 'testName', :proxy => true, :proxyTomcat => true } }
 
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost') }
+      it { should_not contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPass.*!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+<Location \/>$/) }
       it { should_not contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+Deny from all$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPass ajp:\/\/localhost:8009\/$/) }
@@ -198,6 +207,7 @@ describe 'apache::vhost', :type => :define do
       let(:params) { {
         :serverName => 'testName',
         :proxy => true,
+        :proxyExclude => '/admin',
         :proxyTomcat => true,
         :proxyUrl => 'testurl',
         :ajpHost => 'testHost',
@@ -207,6 +217,7 @@ describe 'apache::vhost', :type => :define do
       } }
 
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost') }
+      it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPass\s\/admin\s!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+<Location \/testurl>$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+Deny from all$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+Require valid\-user$/) }
@@ -221,6 +232,7 @@ describe 'apache::vhost', :type => :define do
       let(:params) { { :serverName => 'testName', :proxy => true, :proxyThin => true } }
 
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost') }
+      it { should_not contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPass.*!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+<Proxy balancer:\/\/test_vhost>$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:3000$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:3001$/) }
@@ -235,6 +247,7 @@ describe 'apache::vhost', :type => :define do
       let(:params) { {
         :serverName => 'testName',
         :proxy => true,
+        :proxyExclude => [ '/admin', '/images' ],
         :proxyThin => true,
         :proxyUrl => 'testurl',
         :thinPort => 4000,
@@ -243,7 +256,8 @@ describe 'apache::vhost', :type => :define do
         :authParams => [ 'Require valid-user', 'AuthType basic' ]
       } }
 
-
+      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPass\s\/admin\s!$/) }
+      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPass\s\/images\s!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+<Proxy balancer:\/\/test_vhost>$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:4000$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:4001$/) }
@@ -261,6 +275,7 @@ describe 'apache::vhost', :type => :define do
       let(:params) { { :serverName => 'testName', :proxy => true, :proxyDest => 'http://somewhere' } }
 
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost') }
+      it { should_not contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/^\s+ProxyPass.*!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+ProxyPass\s+\/ http:\/\/somewhere$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+ProxyPassReverse\s+\/ http:\/\/somewhere$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+<Location \/>$/) }
@@ -268,9 +283,18 @@ describe 'apache::vhost', :type => :define do
     end
 
     context "using all parameters" do
-      let(:params) { { :serverName => 'testName', :proxy => true, :proxyUrl => 'here', :proxyDest => 'http://somewhere', :auth => true, :authParams => [ 'Require valid-user', 'AuthType basic' ] } }
+      let(:params) { {
+        :serverName => 'testName',
+        :proxy => true,
+        :proxyExclude => '/css',
+        :proxyUrl => 'here',
+        :proxyDest => 'http://somewhere',
+        :auth => true,
+        :authParams => [ 'Require valid-user', 'AuthType basic' ]
+      } }
 
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost') }
+      it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/^\s+ProxyPass\s\/css\s!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+ProxyPass\s+\/here http:\/\/somewhere$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+ProxyPassReverse\s+\/here http:\/\/somewhere$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+<Location \/here>$/) }
@@ -311,6 +335,5 @@ describe 'apache::vhost', :type => :define do
     let(:params) { { :serverName => 'testName', :headers => 'unset JSESSIONID' } }
     it { should contain_concat__fragment('vhost_50-header_test_vhost') }
   end
-
 
 end
