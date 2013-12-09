@@ -1,7 +1,6 @@
 <%  if scope.lookupvar('locations').is_a? Array -%>
     # Additional Locations
 <%      scope.lookupvar('locations').each do |location| -%>
-
     <Location <%= location['name'] %>>
 <%        location['params'].each do |param| -%>
         <%= param %>
@@ -10,5 +9,6 @@
         Header edit Location ^http://(.*)$ https://$1
 <%        end -%>
     </Location>
+
 <%      end -%>
 <%  end -%>
