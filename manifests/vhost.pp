@@ -323,8 +323,6 @@ define apache::vhost (
       default => $modExpiresByType
   }
 
-
-
   if !defined(Apache::Namevhost[$port]) {
     apache::namevhost { $port: }
   }
