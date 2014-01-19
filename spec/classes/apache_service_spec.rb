@@ -8,13 +8,13 @@ describe 'apache::service', :type => :class do
       'enable'  => true
     ) }
 
-    it { should_not include_class('apache::monitoring::sensu') }
+    it { should_not contain_class('apache::monitoring::sensu') }
   end
 
   context 'monitoring::sensu' do
     let(:params) { { :monitoring => 'sensu' } }
 
-    it { should include_class('apache::monitoring::sensu') }
+    it { should contain_class('apache::monitoring::sensu') }
   end
 
 end
