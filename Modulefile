@@ -1,5 +1,5 @@
 name 'evenup-apache'
-version '2.0.0'
+version '3.0.0'
 author 'Justin Lambert <jlambert@letsevenup.com>'
 license 'Apache'
 summary 'Manages apache.'
