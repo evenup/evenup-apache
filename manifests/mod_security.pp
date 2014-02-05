@@ -14,6 +14,10 @@
 #
 class apache::mod_security {
 
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
+
   case $apache::mod_sec {
     true:  {
       $modsec_version = $apache::modsec_version

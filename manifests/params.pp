@@ -14,11 +14,10 @@
 #
 class apache::params {
 
-  $ensure             = 'latest'
-
+  $ensure               = 'latest'
   # mod_security
-  $mod_sec            = true
-  $activated_rules    = [
+  $mod_sec              = true
+  $activated_rules      = [
     'modsecurity_35_bad_robots.data',
     'modsecurity_35_scanners.data',
     'modsecurity_40_generic_attacks.data',
@@ -41,9 +40,12 @@ class apache::params {
     'modsecurity_crs_59_outbound_blocking.conf',
     'modsecurity_crs_60_correlation.conf'
   ]
-  $modsec_protocols   = 'application/x-www-form-urlencoded|multipart/form-data|text/xml|application/xml|application/x-amf'
-  $modsec_version     = 'latest'
-  $modsec_crs_version = 'latest'
-  $logging            = ''
-  $monitoring         = ''
+  $modsec_protocols     = 'application/x-www-form-urlencoded|multipart/form-data|text/xml|application/xml|application/x-amf'
+  $modsec_version       = 'latest'
+  $modsec_crs_version   = 'latest'
+  # mod_evasive
+  $mod_evasive          = true
+  $mod_evasive_version  = 'latest'
+  $logging              = ''
+  $monitoring           = ''
 }

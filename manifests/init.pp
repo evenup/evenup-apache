@@ -50,16 +50,19 @@
 # Copyright 2013 EvenUp.
 #
 class apache (
-  $ensure             = $apache::params::ensure,
+  $ensure               = $apache::params::ensure,
   # mod_security
-  $mod_sec            = $apache::params::mod_sec,
-  $modsec_version     = $apache::params::modsec_version,
-  $modsec_crs_version = $apache::params::modsec_crs_version,
-  $activate_rules     = $apache::params::activated_rules,
-  $modsec_protocols   = $apache::params::modsec_protocols,
+  $mod_sec              = $apache::params::mod_sec,
+  $modsec_version       = $apache::params::modsec_version,
+  $modsec_crs_version   = $apache::params::modsec_crs_version,
+  $activate_rules       = $apache::params::activated_rules,
+  $modsec_protocols     = $apache::params::modsec_protocols,
+  # mod_evasive
+  $mod_evasive          = $apache::params::mod_evasive,
+  $mod_evasive_version  = $apache::params::mod_evasive_version,
   # monitoring
-  $logging            = $apache::params::logging,
-  $monitoring         = $apache::params::monitoring,
+  $logging              = $apache::params::logging,
+  $monitoring           = $apache::params::monitoring,
 ) inherits apache::params {
 
   include apache::status
@@ -69,7 +72,7 @@ class apache (
   class { 'apache::mod_security': } ->
   class { 'apache::mod_evasive': } ->
   class { 'apache::mod_deflate': } ->
-  class { 'apache::service': monitoring => $monitoring } ->
+  class { 'apache::service': } ->
   anchor { 'apache::end': }
 
 }
