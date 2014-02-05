@@ -5,6 +5,10 @@
 #
 # === Parameters
 #
+# [*ensure*]
+#   String.  Version of apache to install
+#   Default: latest
+#
 # [*mod_sec*]
 #   Boolean.  Should mod_security be enabled?
 #   Default: true
@@ -46,6 +50,7 @@
 # Copyright 2013 EvenUp.
 #
 class apache (
+  $ensure             = $apache::params::ensure,
   # mod_security
   $mod_sec            = $apache::params::mod_sec,
   $modsec_version     = $apache::params::modsec_version,

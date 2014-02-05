@@ -14,9 +14,8 @@
 #
 class apache::install {
 
-  package {
-    'httpd':
-      ensure  => 'latest';
+  package { 'httpd':
+    ensure  => $apache::ensure;
   }
 
   File {

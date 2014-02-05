@@ -14,6 +14,8 @@
 #
 class apache::params {
 
+  $ensure             = 'latest'
+
   # mod_security
   $mod_sec            = true
   $activated_rules    = [
