@@ -13,6 +13,7 @@
 # Copyright 2014 EvenUp.
 #
 define apache::modsec_link () {
+
   file { $title:
     ensure  => 'link',
     path    => "/etc/httpd/modsecurity.d/activated_rules/${title}",

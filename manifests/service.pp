@@ -11,9 +11,11 @@
 #
 # Copyright 2013 EvenUp.
 #
-class apache::service (
-  $monitoring = '',
-){
+class apache::service {
+
+  if $caller_module_name != $module_name {
+    fail("Use of private class ${name} by ${caller_module_name}")
+  }
 
   service {
     'httpd':
@@ -24,7 +26,7 @@ class apache::service (
 #      restart   => '/etc/init.d/httpd graceful';
   }
 
-  case $monitoring {
+  case $apache::monitoring {
     'sensu':  {
       include apache::monitoring::sensu
     }
