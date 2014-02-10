@@ -94,6 +94,10 @@
 #   Integer.  AJP port tomcat is listening on.
 #   Default is 8009
 #
+# [*proxyTomcatUrl*]
+#   String.  Overrides proxyUrl for tomcat vhosts if set
+#   Default is ''
+#
 # [*proxyThin*]
 #   Boolean.  Enable proxy balancer for ruby thin servers
 #   Default is false
@@ -105,6 +109,10 @@
 # [*thinNumServers*]
 #   Integer.  Number of started thin servers
 #   Default 3
+#
+# [*proxyThinUrl*]
+#   String.  Overrides proxyUrl for thin vhosts if set
+#   Default is ''
 #
 # [*proxyUrl*]
 #   String.  Relative URL of the proxied request
@@ -252,10 +260,12 @@ define apache::vhost (
   $proxyTomcat        = false,
   $ajpHost            = 'localhost',
   $ajpPort            = '8009',
+  $proxyTomcatUrl     = '',
   # Thin proxy config
   $proxyThin          = false,
   $thinPort           = '3000',
   $thinNumServers     = '3',
+  $proxyThinUrl       = '',
   # URL Proxy config
   $proxyUrl           = '',
   $proxyDest          = '',

@@ -238,6 +238,19 @@ describe 'apache::vhost', :type => :define do
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPass ajp:\/\/testHost:1234\/testurl$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPassReverse ajp:\/\/testHost:1234\/testurl$/) }
     end
+
+    context "using proxyTomcatUrl" do
+      let(:params) { {
+        :serverName => 'testName',
+        :proxy => true,
+        :proxyTomcat => true,
+        :proxyUrl => 'testurl',
+        :proxyTomcatUrl => 'mysite'
+      } }
+
+      it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost') }
+      it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+<Location \/mysite>$/) }
+    end
   end
 
   context "proxing thin" do
@@ -277,6 +290,19 @@ describe 'apache::vhost', :type => :define do
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+AuthType basic$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPass balancer:\/\/test_vhost\/testurl$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPassReverse balancer:\/\/test_vhost\/$/) }
+    end
+
+    context "using proxyTomcatUrl" do
+      let(:params) { {
+        :serverName => 'testName',
+        :proxy => true,
+        :proxyThin => true,
+        :proxyUrl => 'testurl',
+        :proxyThinUrl => 'mysite'
+      } }
+
+      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost') }
+      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+<Location \/mysite>$/) }
     end
   end
 

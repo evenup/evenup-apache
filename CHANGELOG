@@ -1,3 +1,4 @@
+  Add proxyThinUrl and proxyTomcatUrl parameter (backwards compatible)
   Move ProxyPass template to individual erb
 20140205 - v3.1.0
   Allow setting apache version
