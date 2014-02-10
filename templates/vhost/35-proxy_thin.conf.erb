@@ -2,9 +2,6 @@
     ProxyRequests Off
     ProxyPreserveHost On
 
-<% @proxyExclude_real.sort.each do |exclude| -%>
-    ProxyPass <%= exclude %> !
-<% end -%>
     <Proxy balancer://<%= scope.lookupvar('name') -%>>
 <%          max_port = scope.lookupvar('thinPort').to_i + scope.lookupvar('thinNumServers').to_i - 1 -%>
 <%          for i in scope.lookupvar('thinPort').to_i..max_port -%>

@@ -390,6 +390,14 @@ define apache::vhost (
   }
 
   if $proxy {
+    if $proxyExclude_real != [] {
+      concat::fragment { "vhost_31-proxypass_${name}":
+      target  => "/etc/httpd/conf.d/${order}-${filename_real}",
+      content => template('apache/vhost/31-proxypass.conf.erb'),
+      order   => 31,
+      }
+    }
+
     if $proxyTomcat {
       concat::fragment { "vhost_35-proxy_tomcat_${name}":
         target  => "/etc/httpd/conf.d/${order}-${filename_real}",
