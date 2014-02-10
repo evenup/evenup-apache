@@ -191,6 +191,21 @@ describe 'apache::vhost', :type => :define do
     end
   end
 
+  context "excluding proxy" do
+    context 'with string' do
+      let(:params) { { :serverName => 'testName', :proxy => true, :proxyExclude => '/somewhere' } }
+      it { should contain_concat__fragment('vhost_31-proxypass_test_vhost') }
+      it { should contain_concat__fragment('vhost_31-proxypass_test_vhost').with_content(/\s+ProxyPass \/somewhere !/) }
+    end
+
+    context 'with array' do
+      let(:params) { { :serverName => 'testName', :proxy => true, :proxyExclude => ['/somewhere1', '/somewhere2'] } }
+      it { should contain_concat__fragment('vhost_31-proxypass_test_vhost') }
+      it { should contain_concat__fragment('vhost_31-proxypass_test_vhost').with_content(/\s+ProxyPass \/somewhere1 !/) }
+      it { should contain_concat__fragment('vhost_31-proxypass_test_vhost').with_content(/\s+ProxyPass \/somewhere2 !/) }
+    end
+  end
+
   context "proxing tomcat" do
     context "using default parameters" do
       let(:params) { { :serverName => 'testName', :proxy => true, :proxyTomcat => true } }
@@ -207,7 +222,6 @@ describe 'apache::vhost', :type => :define do
       let(:params) { {
         :serverName => 'testName',
         :proxy => true,
-        :proxyExclude => '/admin',
         :proxyTomcat => true,
         :proxyUrl => 'testurl',
         :ajpHost => 'testHost',
@@ -217,7 +231,6 @@ describe 'apache::vhost', :type => :define do
       } }
 
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost') }
-      it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPass\s\/admin\s!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+<Location \/testurl>$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+Deny from all$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+Require valid\-user$/) }
@@ -247,7 +260,6 @@ describe 'apache::vhost', :type => :define do
       let(:params) { {
         :serverName => 'testName',
         :proxy => true,
-        :proxyExclude => [ '/admin', '/images' ],
         :proxyThin => true,
         :proxyUrl => 'testurl',
         :thinPort => 4000,
@@ -256,8 +268,6 @@ describe 'apache::vhost', :type => :define do
         :authParams => [ 'Require valid-user', 'AuthType basic' ]
       } }
 
-      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPass\s\/admin\s!$/) }
-      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPass\s\/images\s!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+<Proxy balancer:\/\/test_vhost>$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:4000$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:4001$/) }
@@ -286,7 +296,6 @@ describe 'apache::vhost', :type => :define do
       let(:params) { {
         :serverName => 'testName',
         :proxy => true,
-        :proxyExclude => '/css',
         :proxyUrl => 'here',
         :proxyDest => 'http://somewhere',
         :auth => true,
@@ -294,7 +303,6 @@ describe 'apache::vhost', :type => :define do
       } }
 
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost') }
-      it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/^\s+ProxyPass\s\/css\s!$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+ProxyPass\s+\/here http:\/\/somewhere$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+ProxyPassReverse\s+\/here http:\/\/somewhere$/) }
       it { should contain_concat__fragment('vhost_35-proxy_generic_test_vhost').with_content(/\s+<Location \/here>$/) }

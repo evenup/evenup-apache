@@ -2,9 +2,6 @@
     ProxyRequests Off
     ProxyPreserveHost On
 
-<% @proxyExclude_real.sort.each do |exclude| -%>
-    ProxyPass <%= exclude %> !
-<% end -%>
     <Location /<%= scope.lookupvar('proxyUrl') %>>
         AddDefaultCharset Off
         Order deny,allow

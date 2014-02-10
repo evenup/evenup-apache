@@ -1,9 +1,6 @@
     # Proxy Settings
     ProxyRequests Off
     ProxyPreserveHost On
-<% @proxyExclude_real.sort.each do |exclude| -%>
-    ProxyPass <%= exclude %> !
-<% end -%>
 
 <%      if scope.lookupvar('proxyDest') != '' -%>
     ProxyPass         /<%= scope.lookupvar('proxyUrl') %> <%= scope.lookupvar('proxyDest') %>
