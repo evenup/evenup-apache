@@ -2,7 +2,11 @@
     ProxyRequests Off
     ProxyPreserveHost On
 
+<%  if scope.lookupvar('proxyTomcatUrl') != '' -%>
+    <Location /<%= scope.lookupvar('proxyTomcatUrl') %>>
+<%  else -%>
     <Location /<%= scope.lookupvar('proxyUrl') %>>
+<%  end -%>
         AddDefaultCharset Off
         Order deny,allow
 <%      if scope.lookupvar('auth') == true -%>

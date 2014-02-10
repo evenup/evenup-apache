@@ -9,7 +9,11 @@
 <%          end -%>
     </Proxy>
 
+<%  if scope.lookupvar('proxyThinUrl') != '' -%>
+    <Location /<%= scope.lookupvar('proxyThinUrl') %>>
+<%  else -%>
     <Location /<%= scope.lookupvar('proxyUrl') %>>
+<%  end -%>
         AddDefaultCharset Off
         Order deny,allow
 <%      if ( scope.lookupvar('auth') ) == true -%>
