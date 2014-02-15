@@ -1,3 +1,4 @@
+20140214 - v3.2.1
   Fix for using both tomcatProxy and thinProxy
 20140210 - v3.2.0
   Add proxyThinUrl and proxyTomcatUrl parameter (backwards compatible)

@@ -1,5 +1,5 @@
 name 'evenup-apache'
-version '3.2.0'
+version '3.2.1'
 author 'Justin Lambert <jlambert@letsevenup.com>'
 license 'Apache'
 summary 'Manages apache including ajp proxy, thin proxy, and mod_security.'
