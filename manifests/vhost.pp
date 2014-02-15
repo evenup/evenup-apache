@@ -408,19 +408,24 @@ define apache::vhost (
       }
     }
 
+    # Apache processes matches in order not most exact match
+    $tomcatOrder = inline_template('<%= if (@proxyTomcatUrl.length > @proxyThinUrl.length) || (@proxyUrl.length > @proxyThinUrl.length) then 35 else 37 end %>')
+
     if $proxyTomcat {
       concat::fragment { "vhost_35-proxy_tomcat_${name}":
         target  => "/etc/httpd/conf.d/${order}-${filename_real}",
         content => template('apache/vhost/35-proxy_tomcat.conf.erb'),
-        order   => 35,
+        order   => $tomcatOrder,
       }
-    } elsif $proxyThin {
+    }
+    if $proxyThin {
       concat::fragment { "vhost_35-proxy_thin_${name}":
         target  => "/etc/httpd/conf.d/${order}-${filename_real}",
         content => template('apache/vhost/35-proxy_thin.conf.erb'),
-        order   => 35,
+        order   => 36,
       }
-    } else {
+    }
+    if !$proxyTomcat and !$proxyThin {
       # TODO - throw error if proxyDest not set
       concat::fragment { "vhost_35-proxy_generic_${name}":
         target  => "/etc/httpd/conf.d/${order}-${filename_real}",
