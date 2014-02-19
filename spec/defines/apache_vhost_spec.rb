@@ -81,13 +81,13 @@ describe 'apache::vhost', :type => :define do
     context "using the default ports" do
       let(:params) { { :redirectToHTTPS => true, :serverName => 'testname' } }
       it { should contain_concat__fragment('vhost_10-redirect_http_test_vhost') }
-      it { should contain_concat__fragment('vhost_10-redirect_http_test_vhost').with_content(/^\s+RewriteRule \^\/\?\(\.\*\) https:\/\/\%\{SERVER_NAME\}\/\$1 \[R,L\]/) }
+      it { should contain_concat__fragment('vhost_10-redirect_http_test_vhost').with_content(/^\s+RewriteRule \^\/\?\(\.\*\) https:\/\/\%\{SERVER_NAME\}\/\$1 \[R=301,L\]/) }
     end
 
     context "defining targetPort" do
       let(:params) { { :redirectToHTTPS => true, :serverName => 'testname', :targetPort => '8443' } }
       it { should contain_concat__fragment('vhost_10-redirect_http_test_vhost') }
-      it { should contain_concat__fragment('vhost_10-redirect_http_test_vhost').with_content(/^\s+RewriteRule \^\/\?\(\.\*\) https:\/\/\%\{SERVER_NAME\}:8443\/\$1 \[R,L\]/) }
+      it { should contain_concat__fragment('vhost_10-redirect_http_test_vhost').with_content(/^\s+RewriteRule \^\/\?\(\.\*\) https:\/\/\%\{SERVER_NAME\}:8443\/\$1 \[R=301,L\]/) }
     end
   end
 
