@@ -2,8 +2,8 @@
     RewriteEngine On
     RewriteCond %{HTTPS} !=on
 <% if scope.lookupvar('targetPort') != '443' %>
-    RewriteRule ^/?(.*) https://%{SERVER_NAME}:<%= scope.lookupvar('targetPort') %>/$1 [R,L]
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}:<%= scope.lookupvar('targetPort') %>/$1 [R=301,L]
 <% else %>
-    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+    RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R=301,L]
 <% end %>
 
