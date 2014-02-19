@@ -1,3 +1,5 @@
+20140219 - v3.2.2
+  HTTP -> HTTPS redirects are now 301
 20140214 - v3.2.1
   Fix for using both tomcatProxy and thinProxy
 20140210 - v3.2.0
