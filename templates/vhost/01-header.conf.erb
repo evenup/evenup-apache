@@ -29,6 +29,6 @@
 <%    custom_fields << ", \"#{k}\": \"#{logstash_fields[k]}\"" -%>
 <%  end -%>
     # JSON output for logstash
-    LogFormat '{ "@timestamp": "%{%Y-%m-%dT%H:%M:%S%z}t", "@fields": { "proxied_for": "%{X-Forwarded-For}i", "client": "%a", "duration_usec": %D, "status": %>s, "request": "%U%q", "method": "%m", "referrer": "%{Referer}i", "response_size": "%b", "user_agent": "%{User-agent}i"<%= custom_fields -%> }, "@message": "%a (%{X-Forwarded-For}i): %U%q" }' logstash_json
+    LogFormat '{ "@timestamp": "%{%Y-%m-%dT%H:%M:%S%z}t", "proxied_for": "%{X-Forwarded-For}i", "client": "%a", "duration_usec": %D, "status": %>s, "request": "%U%q", "method": "%m", "referrer": "%{Referer}i", "response_size": "%b", "user_agent": "%{User-agent}i"<%= custom_fields -%>, "message": "%a (%{X-Forwarded-For}i): %U%q" }' logstash_json
     CustomLog /var/log/httpd/<%= scope.lookupvar('name_real') -%>_access.json logstash_json
 <% end -%>
