@@ -471,5 +471,11 @@ define apache::vhost (
       tags    => ['access', $name, $::disposition],
       format  => 'rawjson',
     }
+
+    logrotate::file { "apache_${name_real}":
+      log         => "/var/log/httpd/${name_real}_access.json",
+      options     => [ 'missingok', 'notifempty', 'create 0644 apache apache', 'sharedscripts', 'weekly' ],
+      postrotate  => [ '/sbin/service httpd reload > /dev/null 2>/dev/null || true' ]
+    }
   }
 }

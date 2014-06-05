@@ -357,6 +357,7 @@ describe 'apache::vhost', :type => :define do
     let(:params) { { :serverName => 'testName', :logstash => true } }
     it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/CustomLog \/var\/log\/httpd\/test_vhost_access.json logstash_json/) }
     it { should contain_concat__fragment('vhost_01-header_test_vhost').with_content(/"user_agent": "%\{User-agent\}i", /) }
+    it { should contain_logrotate__file('apache_test_vhost').with(:log => '/var/log/httpd/test_vhost_access.json') }
 
     context "custom fields" do
       let(:params) { { :serverName => 'testName', :logstash => true, :logstash_fields => { 'field2' => 'param2', 'field1' => 'param1' } } }

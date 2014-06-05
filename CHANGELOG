@@ -1,3 +1,4 @@
+  Add logrotate to logstash json output files
 20140603 - v3.3.0
   Update JSON log output format for logstash version 1
 20140219 - v3.2.2
