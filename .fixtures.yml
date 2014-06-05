@@ -2,6 +2,7 @@ fixtures:
   repositories:
     beaver: https://github.com/evenup/evenup-beaver.git
     concat: https://github.com/puppetlabs/puppetlabs-concat.git
+    logrotate: https://github.com/evenup/evenup-logrotate.git
     ruby: https://github.com/evenup/evenup-ruby.git
     sensu: https://github.com/sensu/sensu-puppet.git
     stdlib: https://github.com/puppetlabs/puppetlabs-stdlib.git
