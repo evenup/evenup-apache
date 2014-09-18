@@ -16,16 +16,7 @@
 <%  end -%>
         AddDefaultCharset Off
         Order deny,allow
-<%      if ( scope.lookupvar('auth') ) == true -%>
-        Deny from all
-<%      else -%>
         Allow from all
-<%      end -%>
-<%      if scope.lookupvar('authParams').is_a? Array -%>
-<%          scope.lookupvar('authParams').each do |param| -%>
-        <%= param %>
-<%          end -%>
-<%      end -%>
         ProxyPass balancer://<%= scope.lookupvar('name') %>/<%= scope.lookupvar('proxyUrl') %>
         ProxyPassReverse balancer://<%= scope.lookupvar('name') %>/
 <%        if scope.lookupvar('rewrite_to_https') -%>
