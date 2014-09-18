@@ -1,3 +1,5 @@
+20140918 - v3.5.0
+  Remove global auth params from proxies
 20140605 - v3.4.0
   Add logrotate to logstash json output files
 20140603 - v3.3.0
