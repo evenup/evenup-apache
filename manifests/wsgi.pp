@@ -35,7 +35,7 @@ class apache::wsgi {
   }
 
   apache::cfgfile { 'wsgi':
-    filename  => 'wsgi.conf',
-    content   => template('apache/wsgi.conf'),
+    filename => 'wsgi.conf',
+    content  => template('apache/wsgi.conf'),
   }
 }

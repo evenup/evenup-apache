@@ -21,12 +21,12 @@
 class apache::ssl inherits apache {
 
   package { 'mod_ssl':
-    ensure  => 'present',
-    notify  => Class['apache::service'],
+    ensure => 'present',
+    notify => Class['apache::service'],
   }
 
   apache::cfgfile { 'ssl.conf':
-    filename  => 'ssl.conf',
-    content   => template('apache/ssl.conf'),
+    filename => 'ssl.conf',
+    content  => template('apache/ssl.conf'),
   }
 }

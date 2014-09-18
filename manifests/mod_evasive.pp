@@ -30,8 +30,8 @@ class apache::mod_evasive {
   }
 
   package { 'mod_evasive':
-    ensure  => $version,
-    notify  => Class['apache::service'],
+    ensure => $version,
+    notify => Class['apache::service'],
   }
 
   file { '/etc/httpd/conf.d/mod_evasive.conf':
@@ -40,10 +40,10 @@ class apache::mod_evasive {
   }
 
   apache::cfgfile { 'mod_evasive.conf':
-    ensure    => $cfg_ensure,
-    content   => template('apache/mod_evasive.conf'),
-    filename  => 'mod_evasive.conf',
-    require   => Package['mod_evasive'],
+    ensure   => $cfg_ensure,
+    content  => template('apache/mod_evasive.conf'),
+    filename => 'mod_evasive.conf',
+    require  => Package['mod_evasive'],
   }
 
 }
