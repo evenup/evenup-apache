@@ -15,8 +15,8 @@
 define apache::modsec_link () {
 
   file { $title:
-    ensure  => 'link',
-    path    => "/etc/httpd/modsecurity.d/activated_rules/${title}",
-    target  => "/usr/lib/modsecurity.d/base_rules/${title}",
+    ensure => 'link',
+    path   => "/etc/httpd/modsecurity.d/activated_rules/${title}",
+    target => "/usr/lib/modsecurity.d/base_rules/${title}",
   }
 }

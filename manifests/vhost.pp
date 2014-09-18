@@ -351,7 +351,7 @@ define apache::vhost (
     order   => 01,
   }
 
-  if $modExpires == true or $modExpires == 'true' {
+  if $modExpires == true or $modExpires == true {
     concat::fragment { "vhost_05-mod_expires_${name}":
       target  => "/etc/httpd/conf.d/${order}-${filename_real}",
       content => template('apache/vhost/05-mod_expires.conf.erb'),
@@ -467,15 +467,15 @@ define apache::vhost (
 
   if $logstash {
     beaver::stanza { "/var/log/httpd/${name_real}_access.json":
-      type    => 'apache',
-      tags    => ['access', $name, $::disposition],
-      format  => 'rawjson',
+      type   => 'apache',
+      tags   => ['access', $name, $::disposition],
+      format => 'rawjson',
     }
 
     logrotate::file { "apache_${name_real}":
-      log         => "/var/log/httpd/${name_real}_access.json",
-      options     => [ 'missingok', 'notifempty', 'create 0644 apache apache', 'sharedscripts', 'weekly' ],
-      postrotate  => [ '/sbin/service httpd reload > /dev/null 2>/dev/null || true' ]
+      log        => "/var/log/httpd/${name_real}_access.json",
+      options    => [ 'missingok', 'notifempty', 'create 0644 apache apache', 'sharedscripts', 'weekly' ],
+      postrotate => [ '/sbin/service httpd reload > /dev/null 2>/dev/null || true' ]
     }
   }
 }

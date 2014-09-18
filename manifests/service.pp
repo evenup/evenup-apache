@@ -19,9 +19,9 @@ class apache::service {
 
   service {
     'httpd':
-      ensure    => running,
-      enable    => true,
-      require   => Class['apache::install'],
+      ensure  => running,
+      enable  => true,
+      require => Class['apache::install'],
       # TODO mod_security seems to be unhappy with graceful
 #      restart   => '/etc/init.d/httpd graceful';
   }

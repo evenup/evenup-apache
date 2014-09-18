@@ -27,8 +27,8 @@
 define apache::namevhost {
 
   apache::cfgfile { "name-vhost-${name}":
-    content   => "#Managed by puppet - do not modify\nListen ${name}\nNameVirtualHost *:${name}\n",
-    filename  => "namevirtualhost-${name}.conf",
-    order     => '01',
+    content  => "#Managed by puppet - do not modify\nListen ${name}\nNameVirtualHost *:${name}\n",
+    filename => "namevirtualhost-${name}.conf",
+    order    => '01',
   }
 }

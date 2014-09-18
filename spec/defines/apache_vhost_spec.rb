@@ -226,15 +226,11 @@ describe 'apache::vhost', :type => :define do
         :proxyUrl => 'testurl',
         :ajpHost => 'testHost',
         :ajpPort => 1234,
-        :auth => true,
-        :authParams => [ 'Require valid-user', 'AuthType basic' ]
+        :auth => true
       } }
 
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost') }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+<Location \/testurl>$/) }
-      it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+Deny from all$/) }
-      it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+Require valid\-user$/) }
-      it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+AuthType basic$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPass ajp:\/\/testHost:1234\/testurl$/) }
       it { should contain_concat__fragment('vhost_35-proxy_tomcat_test_vhost').with_content(/^\s+ProxyPassReverse ajp:\/\/testHost:1234\/testurl$/) }
     end
@@ -277,17 +273,13 @@ describe 'apache::vhost', :type => :define do
         :proxyUrl => 'testurl',
         :thinPort => 4000,
         :thinNumServers => 2,
-        :auth => true,
-        :authParams => [ 'Require valid-user', 'AuthType basic' ]
+        :auth => true
       } }
 
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+<Proxy balancer:\/\/test_vhost>$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:4000$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+BalancerMember http:\/\/127\.0\.0\.1:4001$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+<Location \/testurl>$/) }
-      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+Deny from all$/) }
-      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+Require valid\-user$/) }
-      it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+AuthType basic$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPass balancer:\/\/test_vhost\/testurl$/) }
       it { should contain_concat__fragment('vhost_35-proxy_thin_test_vhost').with_content(/^\s+ProxyPassReverse balancer:\/\/test_vhost\/$/) }
     end

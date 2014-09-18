@@ -29,17 +29,17 @@ class apache::install {
   }
 
   file { '/etc/sysconfig/httpd':
-    ensure  => 'file',
-    mode    => '0444',
-    source  => 'puppet:///modules/apache/httpd.sysconfig',
-    notify  => Class['apache::service'],
+    ensure => 'file',
+    mode   => '0444',
+    source => 'puppet:///modules/apache/httpd.sysconfig',
+    notify => Class['apache::service'],
   }
 
   file { '/etc/httpd/conf/httpd.conf':
-    ensure  => 'file',
-    mode    => '0444',
-    source  => 'puppet:///modules/apache/httpd.conf',
-    notify  => Class['apache::service'],
+    ensure => 'file',
+    mode   => '0444',
+    source => 'puppet:///modules/apache/httpd.conf',
+    notify => Class['apache::service'],
   }
 
   file { '/etc/httpd/conf.d/':
@@ -62,9 +62,9 @@ class apache::install {
   }
 
   file { '/var/log/httpd/':
-    ensure  => 'directory',
-    owner   => 'root',
-    group   => 'wheel',
-    mode    => '0775',
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'wheel',
+    mode   => '0775',
   }
 }

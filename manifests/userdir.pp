@@ -21,8 +21,8 @@
 class apache::userdir {
 
   apache::cfgfile { 'userdir':
-    filename  => 'userdir.conf',
-    content   => template('apache/userdir.conf'),
+    filename => 'userdir.conf',
+    content  => template('apache/userdir.conf'),
   }
 
 }

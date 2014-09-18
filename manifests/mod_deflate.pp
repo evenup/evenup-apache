@@ -15,8 +15,8 @@
 class apache::mod_deflate {
 
   apache::cfgfile { 'mod_deflate.conf':
-    content   => template('apache/mod_deflate.conf'),
-    filename  => 'mod_deflate.conf',
+    content  => template('apache/mod_deflate.conf'),
+    filename => 'mod_deflate.conf',
   }
 
 }

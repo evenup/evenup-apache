@@ -36,13 +36,13 @@ class apache::mod_security {
   }
 
   package { 'mod_security':
-    ensure  => $modsec_version,
-    notify  => Class['apache::service'],
+    ensure => $modsec_version,
+    notify => Class['apache::service'],
   }
 
   package { 'mod_security_crs':
-    ensure  => $crs_version,
-    notify  => Class['apache::service'],
+    ensure => $crs_version,
+    notify => Class['apache::service'],
   }
 
   file { '/etc/httpd/conf.d/mod_security.conf':
@@ -51,9 +51,9 @@ class apache::mod_security {
   }
 
   apache::cfgfile { 'mod_security.conf':
-    ensure    => $cfg_ensure,
-    content   => template('apache/mod_security.conf'),
-    filename  => 'mod_security.conf',
+    ensure   => $cfg_ensure,
+    content  => template('apache/mod_security.conf'),
+    filename => 'mod_security.conf',
   }
 
   file { [ '/etc/httpd/modsecurity.d', '/etc/httpd/modsecurity.d/activated_rules' ]:
@@ -80,8 +80,8 @@ class apache::mod_security {
   case $apache::logging {
     'beaver': {
       beaver::stanza { '/var/log/httpd/modsec_audit.log':
-        type  => 'modsecurity',
-        tags  => [ $::disposition ],
+        type => 'modsecurity',
+        tags => [ $::disposition ],
       }
     }
 
