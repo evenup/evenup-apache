@@ -16,8 +16,7 @@ class apache::monitoring::sensu {
   # Checking httpd is running
   sensu::check { 'apache-running':
     handlers => 'default',
-    command  => '/etc/sensu/plugins/check-procs.rb -p /usr/sbin/httpd -w 100 -c 200 -C 1',
-    custom   => { 'playbook' => 'https://evenup.atlassian.net/wiki/display/ADMIN/CheckProcs+%5Bapache-running%5D%3A+Found+%7Bx%7D+matching+processes' },
+    command  => '/etc/sensu/plugins/check-procs.rb -p /usr/sbin/httpd -w 100 -c 200 -C 1'
   }
 
   # Metrics

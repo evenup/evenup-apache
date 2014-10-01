@@ -41,6 +41,7 @@ class apache::params {
     'modsecurity_crs_60_correlation.conf'
   ]
   $modsec_protocols     = 'application/x-www-form-urlencoded|multipart/form-data|text/xml|application/xml|application/x-amf'
+  $modsec_restrict_ext  = '.asa/ .asax/ .ascx/ .axd/ .backup/ .bak/ .bat/ .cdx/ .cer/ .cfg/ .cmd/ .com/ .config/ .conf/ .cs/ .csproj/ .csr/ .dat/ .db/ .dbf/ .dll/ .dos/ .htr/ .htw/ .ida/ .idc/ .idq/ .inc/ .ini/ .key/ .licx/ .lnk/ .log/ .mdb/ .old/ .pass/ .pdb/ .pol/ .printer/ .pwd/ .resources/ .resx/ .sql/ .sys/ .vb/ .vbs/ .vbproj/ .vsdisco/ .webinfo/ .xsd/ .xsx/'
   $modsec_version       = 'latest'
   $modsec_crs_version   = 'latest'
   # mod_evasive
