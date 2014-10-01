@@ -57,6 +57,7 @@ class apache (
   $modsec_crs_version   = $apache::params::modsec_crs_version,
   $activate_rules       = $apache::params::activated_rules,
   $modsec_protocols     = $apache::params::modsec_protocols,
+  $modsec_restrict_ext  = $apache::params::modsec_restrict_ext,
   # mod_evasive
   $mod_evasive          = $apache::params::mod_evasive,
   $mod_evasive_version  = $apache::params::mod_evasive_version,
