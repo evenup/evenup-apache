@@ -1,3 +1,5 @@
+20141002 - v3.6.0
+  Allow altering modsec restricted_extensiosn
 20140918 - v3.5.0
   Remove global auth params from proxies
 20140605 - v3.4.0
