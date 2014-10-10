@@ -145,6 +145,10 @@
 #   Designed to allow an arbitrary number of additional locations, all
 #   parameters need to be included in the param key in the hash.
 #
+# [*errorDocs*]
+#   Array of hashes.  Format:
+#   [ { 'code' => '404', 'location' => '/404.html' }]
+#
 # [*modSecOverrides*]
 #   Boolean.  Enable mod_security override parameters
 #   Default: false
@@ -276,6 +280,7 @@ define apache::vhost (
   $siteDirectives     = '',
   $directoryIndex     = '',
   $locations          = [],
+  $errorDocs          = [],
   # Mod Security overrides
   $modSecOverrides    = false,
   $modSecOff          = false,
