@@ -154,6 +154,7 @@ describe 'apache::vhost', :type => :define do
     it { should_not contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\sAddHandler/) }
     it { should_not contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\sDirectoryIndex/) }
     it { should_not contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\sDeny from all/) }
+    it { should_not contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^ErrorDocument/) }
 
     context "using options" do
       context "as an array" do
@@ -188,6 +189,11 @@ describe 'apache::vhost', :type => :define do
       it { should contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\s+AuthType basic$/) }
       it { should contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\s+AuthName "basictest"$/) }
       it { should contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\s+AuthUserFile \/etc\/httpd\/secure\/passwords.passwd$/) }
+    end
+
+    context "using errorDocument" do
+      let(:params) { { :serverName => 'testname', :docroot => '/var/somewhere', :errorDocs => [{'code' => '404', 'location' => '/404.html'}] } }
+      it { should contain_concat__fragment('vhost_30-docroot_test_vhost').with_content(/^\s+ErrorDocument 404 \/404.html$/) }
     end
   end
 

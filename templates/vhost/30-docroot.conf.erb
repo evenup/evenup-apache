@@ -24,9 +24,13 @@
         Allow from all
 <%      end -%>
 <%      if scope.lookupvar('authParams').is_a? Array -%>
-
 <%          scope.lookupvar('authParams').each do |param| -%>
         <%= param %>
 <%          end -%>
+<%      end -%>
+<%      if scope.lookupvar('errorDocs') -%>
+<%        @errorDocs.each do |doc| -%>
+        ErrorDocument <%= doc['code'] %> <%= doc['location'] %>
+<%        end -%>
 <%      end -%>
     </Directory>
