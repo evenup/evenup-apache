@@ -275,6 +275,7 @@ define apache::vhost (
   $proxyDest          = '',
   # Static config
   $docroot            = '',
+  $docrootOverride    = 'None',
   $options            = '',
   $addHandler         = '',
   $siteDirectives     = '',
