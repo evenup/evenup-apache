@@ -16,7 +16,7 @@
 <%      if scope.lookupvar('directoryIndex') != '' -%>
         DirectoryIndex <%= scope.lookupvar('directoryIndex') %>
 <%      end -%>
-        AllowOverride None
+        AllowOverride <%= scope.lookupvar('docrootOverride') %>
         Order deny,allow
 <%      if ( scope.lookupvar('auth') ) == true -%>
         Deny from all
