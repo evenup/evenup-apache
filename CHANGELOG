@@ -1,3 +1,5 @@
+20141111 - v4.0.0
+  Remove prepending 'Header' from header template
 20141107 - v3.8.0
   Add ability to set AllowOverride on docroot
 20141010 - v3.7.0
