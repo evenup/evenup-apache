@@ -2,9 +2,9 @@
 <% headers = scope.lookupvar('headers') -%>
 <% if headers.is_a?(Array) -%>
 <%  headers.to_a.each do |header| -%>
-      Header <%= header %>
+      <%= header %>
 <%  end -%>
 <% else -%>
-      Header <%= headers %>
+      <%= headers %>
 <% end -%>
     </IfModule>
